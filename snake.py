@@ -35,6 +35,32 @@ def inside(head):
     "Return True if head inside boundaries."
     return -200 < head.x < 190 and -200 < head.y < 190
 
+#Función para mover la comida, se le pasa una opción aleatoria
+#Si el movimiento hecho saca a la comida de las barreras, se 
+#regresa la comida a su lugar y se llama recursivamente a la función
+#con otra opción al azar
+def moveFood(option):
+    if option == 1: #Mover a la derecha
+        food.x = food.x+10
+        if not inside(food):
+            food.x = food.x-10
+            moveFood(randrange(1,5))
+    elif option == 2: #Mover a la izquierda
+        food.x = food.x-10
+        if not inside(food):
+            food.x = food.x+10
+            moveFood(randrange(1,5))
+    elif option == 3: #Mover arriba
+        food.y = food.y+10
+        if not inside(food):
+            food.y = food.y-10
+            moveFood(randrange(1,5))
+    else: #Mover abajo
+        food.y = food.y-10
+        if not inside(food):
+            food.y = food.y+10
+            moveFood(randrange(1,5))
+
 def move():
     "Move snake forward one segment."
     head = snake[-1].copy()
@@ -52,6 +78,7 @@ def move():
         food.x = randrange(-15, 15) * 10
         food.y = randrange(-15, 15) * 10
     else:
+        moveFood(randrange(1,5)) #Si no se come la comida, moverla
         snake.pop(0)
 
     clear()
